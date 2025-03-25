@@ -18,7 +18,9 @@ numclass = {}
 typeslst = ["10a","10b","10c"]
 r.shuffle(typeslst)
 counter = 0
-subjectlst = (GetAmmount("Masterv2.csv"))
+peoplelst = NamesandSubs("Masterv2.csv")
+subjectlst = GetAmmount("Masterv2.csv")
+peopleandlesson = {}
 for x,y in subjectlst.items():
     numclass.update({x:numclasses(x,y)})
 for y,x in numclass.items():
@@ -30,11 +32,25 @@ for y,x in numclass.items():
             if counter == 3:
                 counter = 0
         classtypes.update({ y:placeholderlst})
-        
-    
+
+
+for classes,types in classtypes.items():
+    x = 0
+    n = 0
+    for k,y in peoplelst.items():
+        for v in y:
+            if v == classes:
+                current = [peopleandlesson.get(k)]
+                current.append([classes,types[x]])
+                if current[0] == None:
+                    current.pop(0)
+                peopleandlesson.update({k:current})
+                n = n + 1
+                    
+                    
+for c,b in peopleandlesson.items():
+    print(c,"    ",b)
+                    
             
        
         
-peoplelst = NamesandSubs("Masterv2.csv")
-print(peoplelst)
-print(classtypes)
