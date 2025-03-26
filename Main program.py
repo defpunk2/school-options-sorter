@@ -13,13 +13,14 @@ def numclasses(x,y):
     else:
         return(m.ceil(y/32))
 
+csvfile = "Masterv2.csv"
 classtypes = {}    
 numclass = {}
 typeslst = ["10a","10b","10c"]
 r.shuffle(typeslst)
 counter = 0
-peoplelst = NamesandSubs("Masterv2.csv")
-subjectlst = GetAmmount("Masterv2.csv")
+peoplelst = NamesandSubs(csvfile)
+subjectlst = GetAmmount(csvfile)
 peopleandlesson = {}
 for x,y in subjectlst.items():
     numclass.update({x:numclasses(x,y)})
@@ -33,8 +34,8 @@ for y,x in numclass.items():
                 counter = 0
         classtypes.update({ y:placeholderlst})
 
-
-for classes,types in classtypes.items():
+sortedclasstypes = dict(sorted(classtypes.items(), key=lambda item: item[1]))
+for classes,types in sortedclasstypes.items():
     x = 0
     n = 0
     for k,y in peoplelst.items():
@@ -46,6 +47,23 @@ for classes,types in classtypes.items():
                     current.pop(0)
                 peopleandlesson.update({k:current})
                 n = n + 1
+                if k == "Fn" and n == 22:
+                    n = 0
+                    x = 1
+                elif k == "Dt" and n == 24:
+                    n = 0
+                    x = 1
+                elif (k == "Ad" or k == "Be") and n == 28:
+                    n = 0
+                    x = 1
+                elif n == 32:
+                    n = 0
+                    x = 1
+            l = list(peopleandlesson.items())
+            r.shuffle(l)
+            peopleandlesson = dict(l)
+
+                
                     
                     
 for c,b in peopleandlesson.items():
